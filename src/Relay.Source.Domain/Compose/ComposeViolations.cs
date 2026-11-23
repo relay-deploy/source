@@ -4,7 +4,7 @@ namespace Relay.Source.Domain.Compose;
 
 public static class ComposeViolations
 {
-    public static IEnumerable<ComposeViolation> Of(ComposeService service)
+    public static IEnumerable<ComposeViolation> Of(ComposeServiceDefinition service)
     {
         if (service.Privileged)
         {
@@ -41,20 +41,20 @@ public static class ComposeViolations
         }
     }
 
-    public static string? BuildContextOf(ComposeService service)
+    public static string? BuildContextOf(ComposeServiceDefinition service)
     {
         var context = service.Build?.Context;
         return context is null || IsRemote(context) ? null : service.File.DirectoryOf().Join(context);
     }
 
-    private static ComposeViolation? VolumeViolation(ComposeService service, ComposeVolume volume) => volume.Kind() switch
+    private static ComposeViolation? VolumeViolation(ComposeServiceDefinition service, ComposeVolume volume) => volume.Kind() switch
     {
         ComposeVolumeKind.DockerSocket => new ComposeViolation("volumes", ComposeErrors.DockerSocket(service.Name, volume.ToString())),
         ComposeVolumeKind.HostPath => new ComposeViolation("volumes", ComposeErrors.HostPath(service.Name, volume.ToString())),
         _ => null,
     };
 
-    private static ComposeViolation? BuildViolation(ComposeService service)
+    private static ComposeViolation? BuildViolation(ComposeServiceDefinition service)
     {
         var context = service.Build!.Context;
         if (string.IsNullOrWhiteSpace(context))
