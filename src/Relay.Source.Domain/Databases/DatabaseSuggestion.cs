@@ -4,7 +4,7 @@ public sealed record DatabaseSuggestion(
     DatabaseEngine? Engine,
     Likelihood Likelihood,
     IReadOnlyList<string> Signals,
-    string? ComposeService)
+    string? ComposeServiceDefinition)
 {
     public static Likelihood LikelihoodOf(int signals) => signals switch
     {

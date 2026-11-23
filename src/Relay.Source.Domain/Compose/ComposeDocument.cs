@@ -1,6 +1,6 @@
 namespace Relay.Source.Domain.Compose;
 
-public sealed record ComposeDocument(string Path, IReadOnlyList<ComposeService> Services)
+public sealed record ComposeDocument(string Path, IReadOnlyList<ComposeServiceDefinition> Services)
 {
     public ComposeDocument OverlayedWith(ComposeDocument overlay)
     {

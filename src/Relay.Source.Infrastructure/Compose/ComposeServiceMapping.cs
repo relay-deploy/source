@@ -4,10 +4,10 @@ namespace Relay.Source.Infrastructure.Compose;
 
 internal static class ComposeServiceMapping
 {
-    public static ComposeService ToService(string file, string name, object? node)
+    public static ComposeServiceDefinition ToService(string file, string name, object? node)
     {
         var map = node.AsMap();
-        return new ComposeService(
+        return new ComposeServiceDefinition(
             name,
             file,
             map.Get("image").AsText(),

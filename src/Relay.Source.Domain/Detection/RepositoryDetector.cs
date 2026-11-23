@@ -19,7 +19,7 @@ public static class RepositoryDetector
         var databases = new[] { DatabaseDetector.Detect(snapshot) }
             .OfType<DatabaseSuggestion>()
             .Concat(compose.Candidates.Select(candidate => candidate.Database).OfType<DatabaseSuggestion>())
-            .DistinctBy(suggestion => (suggestion.Engine, suggestion.ComposeService))
+            .DistinctBy(suggestion => (suggestion.Engine, suggestion.ComposeServiceDefinition))
             .ToList();
         return new RepositoryDetection(
             modules.Modules,

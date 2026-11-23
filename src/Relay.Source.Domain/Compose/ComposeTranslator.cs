@@ -23,7 +23,7 @@ public static class ComposeTranslator
             [.. translations.SelectMany(translation => translation.Notes)]);
     }
 
-    private static ServiceTranslation Translate(ComposeService service, RepositorySnapshot snapshot, ManifestSet manifests)
+    private static ServiceTranslation Translate(ComposeServiceDefinition service, RepositorySnapshot snapshot, ManifestSet manifests)
     {
         var violations = ComposeViolations.Of(service).ToList();
         if (violations.Count > 0)
@@ -48,7 +48,7 @@ public static class ComposeTranslator
         return ServiceTranslation.Accepted(Classify(service, candidate, snapshot, manifests), NotesOf(service));
     }
 
-    private static ComposeCandidate Classify(ComposeService service, ComposeCandidate candidate, RepositorySnapshot snapshot, ManifestSet manifests)
+    private static ComposeCandidate Classify(ComposeServiceDefinition service, ComposeCandidate candidate, RepositorySnapshot snapshot, ManifestSet manifests)
     {
         if (service.Build is not null)
         {
@@ -80,7 +80,7 @@ public static class ComposeTranslator
         return detected with { Mode = BuildMode.Dockerfile };
     }
 
-    private static IEnumerable<DetectionNote> NotesOf(ComposeService service)
+    private static IEnumerable<DetectionNote> NotesOf(ComposeServiceDefinition service)
     {
         foreach (var port in service.Ports.Where(port => port.Published is not null))
         {

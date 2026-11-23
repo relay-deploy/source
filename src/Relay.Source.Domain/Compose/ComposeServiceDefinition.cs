@@ -1,6 +1,6 @@
 namespace Relay.Source.Domain.Compose;
 
-public sealed record ComposeService(
+public sealed record ComposeServiceDefinition(
     string Name,
     string File,
     string? Image,
@@ -13,7 +13,7 @@ public sealed record ComposeService(
     string? NetworkMode,
     IReadOnlyList<string> Devices)
 {
-    public ComposeService OverlayedWith(ComposeService overlay) =>
+    public ComposeServiceDefinition OverlayedWith(ComposeServiceDefinition overlay) =>
         this with
         {
             Image = overlay.Image ?? Image,
